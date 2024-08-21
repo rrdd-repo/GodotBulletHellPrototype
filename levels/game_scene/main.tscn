@@ -1,0 +1,43 @@
+[gd_scene load_steps=4 format=3 uid="uid://2rungbvhxbjr"]
+
+[ext_resource type="PackedScene" uid="uid://dmjbm27vskovf" path="res://levels/test_scene/testscene.tscn" id="1_fw7au"]
+[ext_resource type="Script" path="res://levels/game_scene/main.gd" id="1_vw5ih"]
+[ext_resource type="Texture2D" uid="uid://dc6hravemg2fs" path="res://icon.svg" id="2_hyxjj"]
+
+[node name="Node" type="Node"]
+script = ExtResource("1_vw5ih")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_right = -10.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("2_hyxjj")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="HBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="SubViewport" type="SubViewport" parent="HBoxContainer/SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(480, 640)
+size_2d_override_stretch = true
+render_target_update_mode = 4
+
+[node name="Testscene" parent="HBoxContainer/SubViewportContainer/SubViewport" instance=ExtResource("1_fw7au")]
+
+[node name="TextureRect2" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("2_hyxjj")

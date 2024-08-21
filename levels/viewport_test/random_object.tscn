@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://bktghtjyxqdfv"]
+
+[ext_resource type="Texture2D" uid="uid://dc6hravemg2fs" path="res://icon.svg" id="1_u7w1l"]
+[ext_resource type="Script" path="res://levels/viewport_test/Camera3D.gd" id="2_tgprx"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_djwf1"]
+albedo_texture = ExtResource("1_u7w1l")
+
+[sub_resource type="BoxMesh" id="BoxMesh_dtepi"]
+material = SubResource("StandardMaterial3D_djwf1")
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_j78ax"]
+
+[node name="RandomObject" type="Node3D"]
+script = ExtResource("2_tgprx")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.910921, 0.41258, 0, -0.41258, 0.910921, 0.0483848, 1.18101, 5.8066)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_dtepi")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.193019, 0.981195, 0, -0.981195, 0.193019, -1.06313, 3.75235, 1.0307)
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.07934, 0.213899, -1.50876)
+mesh = SubResource("CapsuleMesh_j78ax")

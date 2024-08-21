@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://dmjbm27vskovf"]
+
+[ext_resource type="PackedScene" uid="uid://c1qwue15wk8ob" path="res://characters/player/player.tscn" id="1_gvu1r"]
+[ext_resource type="Script" path="res://levels/player_detector.gd" id="2_qy38m"]
+[ext_resource type="PackedScene" uid="uid://dlngj7jilq3dy" path="res://characters/enemy/enemy.tscn" id="3_jr4pm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_si1w2"]
+size = Vector2(13.5, 157)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ergts"]
+
+[node name="Testscene" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Player" parent="." instance=ExtResource("1_gvu1r")]
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(191, 30)
+script = ExtResource("2_qy38m")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_si1w2")
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D"]
+scale = Vector2(-16.2198, 158.354)
+texture = SubResource("PlaceholderTexture2D_ergts")
+
+[node name="Enemy" parent="." instance=ExtResource("3_jr4pm")]
+position = Vector2(375, 10)
+
+[connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]

@@ -1,0 +1,112 @@
+[gd_scene load_steps=12 format=3 uid="uid://dmjbm27vskovf"]
+
+[ext_resource type="Script" path="res://levels/test_scene/test_scene.gd" id="1_bapeb"]
+[ext_resource type="PackedScene" uid="uid://bktghtjyxqdfv" path="res://levels/viewport_test/random_object.tscn" id="1_udpi6"]
+[ext_resource type="PackedScene" uid="uid://c1qwue15wk8ob" path="res://characters/player/player.tscn" id="2_q3o0v"]
+[ext_resource type="Texture2D" uid="uid://dqkyemgse2je" path="res://addons/PerfBullets/test_bullet_animation_sheet.png" id="3_u72so"]
+[ext_resource type="Script" path="res://levels/test_scene/player_detector.gd" id="4_g8x7j"]
+[ext_resource type="Script" path="res://levels/test_scene/back_detector.gd" id="5_wuxrg"]
+[ext_resource type="PackedScene" uid="uid://dlngj7jilq3dy" path="res://characters/enemy/enemy.tscn" id="6_4g37c"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rayqn"]
+radius = 20.0
+
+[sub_resource type="BulletType" id="BulletType_s7avu"]
+initialSpeed = 200.0
+_shape = SubResource("CircleShape2D_rayqn")
+mask = 2
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_si1w2"]
+size = Vector2(13.5, 157)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ergts"]
+
+[node name="Testscene" type="Node2D"]
+script = ExtResource("1_bapeb")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(11.9117, 11.9117)
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="Control/SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(40, 40)
+render_target_update_mode = 4
+
+[node name="RandomObject" parent="Control/SubViewportContainer/SubViewport" instance=ExtResource("1_udpi6")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Player" parent="." instance=ExtResource("2_q3o0v")]
+position = Vector2(3, -2)
+scale = Vector2(0.5, 0.5)
+
+[node name="PlayerShot" type="Spawner" parent="Player"]
+startMode = 2
+bulletType = SubResource("BulletType_s7avu")
+fireRate = 0.1
+fireRadiusDegrees = 90.0
+bulletsPerRadius = 3
+startRotation = 225.0
+rowsInAtlas = 2
+columnsInAtlas = 2
+texture = ExtResource("3_u72so")
+
+[node name="TurnPurple" type="Area2D" parent="."]
+position = Vector2(191, 30)
+script = ExtResource("4_g8x7j")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TurnPurple"]
+shape = SubResource("RectangleShape2D_si1w2")
+
+[node name="Sprite2D" type="Sprite2D" parent="TurnPurple"]
+scale = Vector2(-16.2198, 158.354)
+texture = SubResource("PlaceholderTexture2D_ergts")
+
+[node name="TurnBack" type="Area2D" parent="."]
+position = Vector2(-167, 27)
+script = ExtResource("5_wuxrg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TurnBack"]
+shape = SubResource("RectangleShape2D_si1w2")
+
+[node name="Sprite2D" type="Sprite2D" parent="TurnBack"]
+self_modulate = Color(1, 0, 0, 1)
+scale = Vector2(-16.2198, 158.354)
+texture = SubResource("PlaceholderTexture2D_ergts")
+
+[node name="Enemy" parent="." instance=ExtResource("6_4g37c")]
+position = Vector2(154, -98)
+scale = Vector2(0.5, 0.5)
+
+[node name="Enemy2" parent="." instance=ExtResource("6_4g37c")]
+position = Vector2(-90, -127)
+scale = Vector2(0.5, 0.5)
+
+[node name="Enemy3" parent="." instance=ExtResource("6_4g37c")]
+position = Vector2(37, -160)
+scale = Vector2(0.5, 0.5)
+
+[connection signal="bullet_hit" from="Player/PlayerShot" to="TurnPurple" method="_on_player_shot_bullet_hit"]
+[connection signal="body_entered" from="TurnPurple" to="TurnPurple" method="_on_body_entered"]
+[connection signal="body_entered" from="TurnBack" to="TurnBack" method="_on_body_entered"]
